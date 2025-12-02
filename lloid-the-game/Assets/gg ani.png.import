@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cymsvk54kmy82"
-path="res://.godot/imported/3cb72a6434b2d73670fe2b6bc4a8d2bb.jpg-d24b6dae5620894670f702f7f3616556.ctex"
+uid="uid://2tsgqdi2ulbu"
+path="res://.godot/imported/gg ani.png-99be29a5d01bcfe0f74089b5d4124546.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://111/3cb72a6434b2d73670fe2b6bc4a8d2bb.jpg"
-dest_files=["res://.godot/imported/3cb72a6434b2d73670fe2b6bc4a8d2bb.jpg-d24b6dae5620894670f702f7f3616556.ctex"]
+source_file="res://Assets/gg ani.png"
+dest_files=["res://.godot/imported/gg ani.png-99be29a5d01bcfe0f74089b5d4124546.ctex"]
 
 [params]
 
