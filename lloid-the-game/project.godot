@@ -15,6 +15,13 @@ run/main_scene="uid://ut7bdcksxicd"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=400
+window/size/mode=2
+window/stretch/mode="canvas_items"
+
 [input]
 
 Sprint={
