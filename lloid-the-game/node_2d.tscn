@@ -1,8 +1,11 @@
-[gd_scene load_steps=61 format=4 uid="uid://ut7bdcksxicd"]
+[gd_scene load_steps=70 format=4 uid="uid://ut7bdcksxicd"]
 
 [ext_resource type="Script" uid="uid://c0fdw76h18ps0" path="res://BattleLogik.gd" id="1_epypp"]
 [ext_resource type="TileSet" uid="uid://c280ir0qbtnvj" path="res://new_tile_set.tres" id="1_wtcfe"]
 [ext_resource type="Texture2D" uid="uid://cygqvi57y55ou" path="res://Assets/PC _ Computer - CrossCode - Playable Characters - Lea.png" id="3_epypp"]
+[ext_resource type="Texture2D" uid="uid://cbnyurk6xqq3p" path="res://icon.svg" id="4_0hol4"]
+[ext_resource type="Script" uid="uid://ckak47hspbhsp" path="res://Scripts/Dummy_hit.gd" id="5_kdubu"]
+[ext_resource type="Texture2D" uid="uid://cm8ls2d6m5p6l" path="res://Assets/Training Dummy Sprite Sheet.png" id="5_q6r6c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_epypp"]
 size = Vector2(48, 562)
@@ -14,15 +17,7 @@ size = Vector2(870, 141)
 size = Vector2(46, 571)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
-size = Vector2(114, 111)
-
-[sub_resource type="Animation" id="Animation_0hol4"]
-resource_name = "walk"
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_q6r6c"]
-_data = {
-&"walk": SubResource("Animation_0hol4")
-}
+size = Vector2(15, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_epypp"]
 atlas = ExtResource("3_epypp")
@@ -432,6 +427,49 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kdubu"]
+size = Vector2(11, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ytlpd"]
+atlas = ExtResource("5_q6r6c")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2v765"]
+atlas = ExtResource("5_q6r6c")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b8fb0"]
+atlas = ExtResource("5_q6r6c")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ma08v"]
+atlas = ExtResource("5_q6r6c")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s32dh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ytlpd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2v765")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b8fb0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ma08v")
+}],
+"loop": false,
+"name": &"hit_anim",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_037st"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q6r6c"]
+
 [node name="Node2D" type="Node2D"]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -458,26 +496,59 @@ shape = SubResource("RectangleShape2D_q6r6c")
 
 [node name="main hero" type="CharacterBody2D" parent="."]
 position = Vector2(205, 147)
+collision_mask = 2
 motion_mode = 1
 script = ExtResource("1_epypp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="main hero"]
 visible = false
-position = Vector2(4, -1.5)
+position = Vector2(3.5, 9)
 shape = SubResource("RectangleShape2D_0e48y")
 
 [node name="Camera2D" type="Camera2D" parent="main hero"]
+visible = false
 position = Vector2(-3, 0)
 scale = Vector2(1e-05, 1e-05)
 position_smoothing_enabled = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="main hero"]
-libraries = {
-&"": SubResource("AnimationLibrary_q6r6c")
-}
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="main hero"]
-position = Vector2(4, 1)
 sprite_frames = SubResource("SpriteFrames_kfelt")
 animation = &"idle"
-frame_progress = 0.2256083
+
+[node name="Attack_Area" type="Area2D" parent="main hero"]
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="main hero/Attack_Area"]
+visible = false
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_kdubu")
+
+[node name="Sprite2D" type="Sprite2D" parent="main hero/Attack_Area"]
+visible = false
+position = Vector2(-3.8146973e-06, -4.2915344e-06)
+scale = Vector2(0.12890625, 0.12890625)
+texture = ExtResource("4_0hol4")
+
+[node name="Dummy" type="CharacterBody2D" parent="."]
+position = Vector2(44, 52)
+collision_layer = 2
+script = ExtResource("5_kdubu")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Dummy"]
+sprite_frames = SubResource("SpriteFrames_s32dh")
+animation = &"hit_anim"
+
+[node name="Hit_Area" type="Area2D" parent="Dummy"]
+position = Vector2(-1, 1)
+collision_layer = 2
+
+[node name="hit_collision" type="CollisionShape2D" parent="Dummy/Hit_Area"]
+position = Vector2(-2, 0)
+shape = SubResource("CapsuleShape2D_037st")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dummy"]
+position = Vector2(0, -1)
+shape = SubResource("CapsuleShape2D_q6r6c")
+
+[connection signal="area_entered" from="Dummy/Hit_Area" to="Dummy" method="_on_hit_area_area_entered"]
