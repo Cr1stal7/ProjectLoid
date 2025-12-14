@@ -1,14 +1,21 @@
 extends CharacterBody2D
 @onready var anim = $AnimatedSprite2D
+@onready var Atc_anim = $Attack_Area/AnimatedSprite2D
 @onready var attack_area = $Attack_Area
+@onready var attack_shape = $Attack_Area/CollisionShape2D
+@onready var combo_timer = $combo_timer
 @export var walk_speed := 180.0
 @export var sprint_multiplier := 1.6
 @export var Attack_Distance := 20
+var Attack_variance = 1
 var running = false
 var is_attacking = false
 var last_dir := "down"
 var aim_dir := Vector2.DOWN
+func _ready() -> void:
+	Atc_anim.play("idle")
 func _physics_process(_delta):
+	
 	var dir = Vector2(
 		Input.get_action_strength("right_walk") - Input.get_action_strength("left_walk"),
 		Input.get_action_strength("down_walk") - Input.get_action_strength("up_walk")
@@ -57,9 +64,37 @@ func _physics_process(_delta):
 		attack()
 func attack():
 	is_attacking = true
-	attack_area.position = aim_dir * Attack_Distance
-	attack_area.monitoring = true
+	if Attack_variance == 1:
+		attack_area.position = aim_dir * Attack_Distance
+		combo_timer.start()
+		attack_shape.disabled = true
+		await get_tree().process_frame#atack area reload
+		attack_shape.disabled = false
+		attack_area.rotation = aim_dir.angle()
+		Atc_anim.play("Attack_1")
+		attack_area.monitorable = true
+		await get_tree().create_timer(0.12).timeout
+		attack_shape.disabled = true
+		attack_area.monitorable = false
+		is_attacking = false
+		Attack_variance += 1
+	elif Attack_variance == 2:
+		combo_timer.start()
+		Atc_anim.play("Attack_2")
+		Attack_variance += 1
+		await get_tree().create_timer(0.12).timeout
+		is_attacking = false
+	else:
+		combo_timer.start()
+		Atc_anim.play("Attack_3")
+		Attack_variance = 1
+		await get_tree().create_timer(0.12).timeout
+		is_attacking = false
+		
+
+
+func _on_combo_timer_timeout() -> void:
+	Attack_variance = 1
 	
-	await get_tree().create_timer(0.12).timeout
-	attack_area.monitoring = false
-	is_attacking = false
+	
+	pass # Replace with function body.
