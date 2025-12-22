@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var attack_area = $Attack_Area
 @onready var attack_shape = $Attack_Area/CollisionShape2D
 @onready var combo_timer = $combo_timer
+@export var knockback = -80
 @export var walk_speed := 180.0
 @export var sprint_multiplier := 1.6
 @export var Attack_Distance := 20
@@ -64,32 +65,34 @@ func _physics_process(_delta):
 		attack()
 func attack():
 	is_attacking = true
-	if Attack_variance == 1:
-		attack_area.position = aim_dir * Attack_Distance
-		combo_timer.start()
-		attack_shape.disabled = true
-		await get_tree().process_frame#atack area reload
-		attack_shape.disabled = false
-		attack_area.rotation = aim_dir.angle()
-		Atc_anim.play("Attack_1")
-		attack_area.monitorable = true
-		await get_tree().create_timer(0.12).timeout
-		attack_shape.disabled = true
-		attack_area.monitorable = false
-		is_attacking = false
-		Attack_variance += 1
-	elif Attack_variance == 2:
-		combo_timer.start()
-		Atc_anim.play("Attack_2")
-		Attack_variance += 1
-		await get_tree().create_timer(0.12).timeout
-		is_attacking = false
-	else:
-		combo_timer.start()
-		Atc_anim.play("Attack_3")
-		Attack_variance = 1
-		await get_tree().create_timer(0.12).timeout
-		is_attacking = false
+	#if Attack_variance == 1:
+	attack_area.position = aim_dir * Attack_Distance
+	combo_timer.start()
+	attack_shape.disabled = true
+	await get_tree().process_frame#atack area reload
+	attack_shape.disabled = false
+	attack_area.rotation = aim_dir.angle()
+	Atc_anim.play("Attack_1")
+	attack_area.monitorable = true
+	await get_tree().create_timer(0.12).timeout
+	attack_shape.disabled = true
+	attack_area.monitorable = false
+	is_attacking = false
+	Attack_variance += 1
+	velocity = aim_dir * knockback
+	move_and_slide()
+	#elif Attack_variance == 2:
+		#combo_timer.start()
+		#Atc_anim.play("Attack_2")
+		#Attack_variance += 1
+		#await get_tree().create_timer(0.12).timeout
+		#is_attacking = false
+	#else:
+		#combo_timer.start()
+		#Atc_anim.play("Attack_3")
+		#Attack_variance = 1
+		#await get_tree().create_timer(0.12).timeout
+		#is_attacking = false
 		
 
 
