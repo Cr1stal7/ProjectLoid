@@ -19,7 +19,7 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=640
 window/size/viewport_height=400
-window/size/mode=2
+window/size/mode=3
 window/stretch/mode="canvas_items"
 
 [global_group]
@@ -67,3 +67,5 @@ down_walk={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true
