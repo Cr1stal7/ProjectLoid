@@ -4,15 +4,22 @@ extends CharacterBody2D
 @onready var attack_area = $Attack_Area
 @onready var attack_shape = $Attack_Area/CollisionShape2D
 @onready var combo_timer = $combo_timer
+@onready var scythe_shapr=$Scythe/CollisionShape2D
+@onready var scythe_area=$Scythe
+@onready var scythe_anim=$Scythe/AnimatedSprite2D
+@onready var scythe_timer_attack=$Scythe_attack_timer
+@onready var scythe_timer_dash=$Scythe_dash_timer
 @export var knockback = -80
 @export var walk_speed := 180.0
 @export var sprint_multiplier := 1.6
 @export var Attack_Distance := 20
+var Dashing = false
 var Attack_variance = 1
 var running = false
 var is_attacking = false
 var last_dir := "down"
 var aim_dir := Vector2.DOWN
+var aim_dir_temp := Vector2.DOWN
 func _ready() -> void:
 	Atc_anim.play("idle")
 func _physics_process(_delta):
@@ -22,7 +29,9 @@ func _physics_process(_delta):
 		Input.get_action_strength("down_walk") - Input.get_action_strength("up_walk")
 	).normalized()
 	var speed := walk_speed
-	
+	if Dashing ==true:
+		velocity = aim_dir_temp * 500
+		move_and_slide()
 	if Input.is_action_pressed("Sprint"):
 		speed *= sprint_multiplier
 		running = true
@@ -64,23 +73,23 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed("Attack") and is_attacking == false:
 		attack()
 func attack():
-	is_attacking = true
+	#is_attacking = true
 	#if Attack_variance == 1:
-	attack_area.position = aim_dir * Attack_Distance
-	combo_timer.start()
-	attack_shape.disabled = true
-	await get_tree().process_frame#atack area reload
-	attack_shape.disabled = false
-	attack_area.rotation = aim_dir.angle()
-	Atc_anim.play("Attack_1")
-	attack_area.monitorable = true
-	await get_tree().create_timer(0.12).timeout
-	attack_shape.disabled = true
-	attack_area.monitorable = false
-	is_attacking = false
-	Attack_variance += 1
-	velocity = aim_dir * knockback
-	move_and_slide()
+	#attack_area.position = aim_dir * Attack_Distance
+	#combo_timer.start()
+	#attack_shape.disabled = true
+	#await get_tree().process_frame#atack area reload
+	#attack_shape.disabled = false
+	#attack_area.rotation = aim_dir.angle()
+	#Atc_anim.play("Attack_1")
+	#attack_area.monitorable = true
+	#await get_tree().create_timer(0.12).timeout
+	#attack_shape.disabled = true
+	#attack_area.monitorable = false
+	#is_attacking = false
+	#Attack_variance += 1
+	#velocity = aim_dir * knockback
+	#move_and_slide()
 	#elif Attack_variance == 2:
 		#combo_timer.start()
 		#Atc_anim.play("Attack_2")
@@ -94,10 +103,60 @@ func attack():
 		#await get_tree().create_timer(0.12).timeout
 		#is_attacking = false
 		
-
+		
+	is_attacking = true
+	if Attack_variance == 1:
+		Dashing = true
+		aim_dir_temp = (get_global_mouse_position() - global_position).normalized()
+		combo_timer.start()
+		scythe_timer_dash.start()
+		scythe_timer_attack.start()
+		Attack_variance += 1
+		
+	elif Attack_variance == 2:
+		scythe_area.position = aim_dir * Attack_Distance
+		scythe_shapr.disabled = true
+		await get_tree().process_frame#atack area reload
+		scythe_shapr.disabled = false
+		scythe_area.rotation = aim_dir.angle()
+		scythe_area.monitorable = true
+		await get_tree().create_timer(0.12).timeout
+		scythe_shapr.disabled = true
+		scythe_area.monitorable = false
+		combo_timer.start()
+		Atc_anim.play("Attack_2")
+		Attack_variance += 1
+		await get_tree().create_timer(0.12).timeout
+		is_attacking = false
+	else:
+		combo_timer.start()
+		Atc_anim.play("Attack_3")
+		Attack_variance = 1
+		await get_tree().create_timer(0.12).timeout
+		is_attacking = false
 
 func _on_combo_timer_timeout() -> void:
 	Attack_variance = 1
 	
 	
 	pass # Replace with function body.
+
+
+
+func _on_scythe_dash_timer_timeout() -> void:
+	Dashing = false
+	is_attacking = false
+	
+
+
+func _on_scythe_attack_timer_timeout() -> void: 
+	scythe_area.position = aim_dir * Attack_Distance
+	scythe_shapr.disabled = true
+	await get_tree().process_frame#atack area reload
+	scythe_shapr.disabled = false
+	scythe_area.rotation = aim_dir.angle()
+	Atc_anim.play("Attack_1")
+	scythe_area.monitorable = true
+	await get_tree().create_timer(0.12).timeout
+	scythe_shapr.disabled = true
+	scythe_area.monitorable = false
