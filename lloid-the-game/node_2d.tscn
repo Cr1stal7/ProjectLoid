@@ -793,6 +793,10 @@ offset_bottom = -31.0
 value = 100.0
 texture_progress = ExtResource("11_nr8wp")
 
+[node name="AttackCooldown" type="Timer" parent="ysort/main hero"]
+wait_time = 0.25
+one_shot = true
+
 [node name="Nps" type="Node2D" parent="ysort"]
 y_sort_enabled = true
 position = Vector2(448, 272)
@@ -830,5 +834,6 @@ shape = SubResource("CapsuleShape2D_q6r6c")
 [connection signal="timeout" from="ysort/main hero/Scythe_dash_timer" to="ysort/main hero" method="_on_scythe_dash_timer_timeout"]
 [connection signal="timeout" from="ysort/main hero/Scythe_attack_timer" to="ysort/main hero" method="_on_scythe_attack_timer_timeout"]
 [connection signal="area_entered" from="ysort/main hero/Hitbox" to="ysort/main hero" method="_on_hitbox_area_entered"]
+[connection signal="timeout" from="ysort/main hero/AttackCooldown" to="ysort/main hero" method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="ysort/Nps/Dummy/ShootTimer" to="ysort/Nps/Dummy" method="_on_shoot_timer_timeout"]
 [connection signal="area_entered" from="ysort/Nps/Dummy/Hit_Area" to="ysort/Nps/Dummy" method="_on_hit_area_area_entered"]
