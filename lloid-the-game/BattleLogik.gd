@@ -10,11 +10,11 @@ extends CharacterBody2D
 @onready var scythe_timer_attack=$Scythe_attack_timer
 @onready var scythe_timer_dash=$Scythe_dash_timer
 @onready var hitbox=$Hitbox
+@onready var Hero_Hp=$TextureProgressBar
 @export var knockback = -80
 @export var walk_speed := 180.0
 @export var sprint_multiplier := 1.6
 @export var Attack_Distance := 20
-var Hero_Hp=100
 var Dashing = false
 var Attack_variance = 1
 var running = false
@@ -137,7 +137,7 @@ func attack():
 		await get_tree().create_timer(0.12).timeout
 		is_attacking = false
 		scythe_shapr.shape.radius = 32.0
-		scythe_area.position = global_position
+		scythe_area.position = global_position.normalized()
 		scythe_shapr.disabled = true
 		await get_tree().process_frame#atack area reload
 		scythe_shapr.disabled = false
@@ -154,16 +154,11 @@ func _on_combo_timer_timeout() -> void:
 	Attack_variance = 1
 	
 	
-	pass # Replace with function body.
-
-
-
 func _on_scythe_dash_timer_timeout() -> void:
 	Dashing = false
 	is_attacking = false
 	
-
-
+	
 func _on_scythe_attack_timer_timeout() -> void: 
 	scythe_area.position = aim_dir * Attack_Distance
 	scythe_shapr.disabled = true
@@ -179,7 +174,7 @@ func _on_scythe_attack_timer_timeout() -> void:
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):
-		Hero_Hp-=10
-	if Hero_Hp==0 or Hero_Hp<0:
+		Hero_Hp.value-=10
+	if Hero_Hp.value==0 or Hero_Hp.value<0:
 		queue_free()
 		

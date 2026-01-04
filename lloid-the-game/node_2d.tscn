@@ -1,4 +1,4 @@
-[gd_scene load_steps=102 format=3 uid="uid://ut7bdcksxicd"]
+[gd_scene load_steps=104 format=3 uid="uid://ut7bdcksxicd"]
 
 [ext_resource type="Script" uid="uid://c0fdw76h18ps0" path="res://BattleLogik.gd" id="1_epypp"]
 [ext_resource type="Texture2D" uid="uid://djua4vu8g33sh" path="res://Assets/top_left-Sheet.png" id="3_4d7sh"]
@@ -11,7 +11,9 @@
 [ext_resource type="Texture2D" uid="uid://d07halw2kqunr" path="res://Assets/Vfx/VslashSmall1.png" id="6_4d7sh"]
 [ext_resource type="PackedScene" uid="uid://ccqxg2yxf1otp" path="res://test_bullet.tscn" id="7_4d7sh"]
 [ext_resource type="Texture2D" uid="uid://c1qtu8ssl1fk8" path="res://Assets/Vfx/vSlash1.png" id="9_x0ka3"]
+[ext_resource type="Texture2D" uid="uid://cbnyurk6xqq3p" path="res://icon.svg" id="10_0h7mo"]
 [ext_resource type="Texture2D" uid="uid://bw7hcat5dxf7i" path="res://Assets/cathedrall boss arena.png" id="11_hqns4"]
+[ext_resource type="Texture2D" uid="uid://ck6dufo37df0d" path="res://Assets/Hpgauge.png" id="11_nr8wp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
 size = Vector2(15, 16)
@@ -702,105 +704,131 @@ offset_right = 1348.0
 offset_bottom = 927.0
 color = Color(0.059820473, 0.2851045, 0.2851045, 0.77254903)
 
-[node name="main hero" type="CharacterBody2D" parent="." groups=["player"]]
+[node name="ysort" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="main hero" type="CharacterBody2D" parent="ysort" groups=["player"]]
+y_sort_enabled = true
 position = Vector2(205, 147)
 collision_mask = 3
 motion_mode = 1
 script = ExtResource("1_epypp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="main hero"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ysort/main hero"]
 visible = false
 position = Vector2(3.5, 9)
 shape = SubResource("RectangleShape2D_0e48y")
 
-[node name="Camera2D" type="Camera2D" parent="main hero"]
+[node name="Camera2D" type="Camera2D" parent="ysort/main hero"]
 visible = false
 position = Vector2(-3, 0)
 scale = Vector2(1e-05, 1e-05)
 position_smoothing_enabled = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="main hero"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ysort/main hero"]
+position = Vector2(0, -10)
 sprite_frames = SubResource("SpriteFrames_kfelt")
 animation = &"walk_down"
 frame_progress = 0.19845028
 
-[node name="Attack_Area" type="Area2D" parent="main hero"]
+[node name="Attack_Area" type="Area2D" parent="ysort/main hero"]
+position = Vector2(0, -10)
 collision_mask = 2
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="main hero/Attack_Area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ysort/main hero/Attack_Area"]
 visible = false
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_kdubu")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="main hero/Attack_Area"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ysort/main hero/Attack_Area"]
 sprite_frames = SubResource("SpriteFrames_m7xe6")
 animation = &"Attack_3"
 
-[node name="combo_timer" type="Timer" parent="main hero"]
+[node name="combo_timer" type="Timer" parent="ysort/main hero"]
 wait_time = 2.0
 
-[node name="Scythe" type="Area2D" parent="main hero" groups=["PlayerAttack"]]
+[node name="Scythe" type="Area2D" parent="ysort/main hero" groups=["PlayerAttack"]]
+position = Vector2(0, -10)
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="main hero/Scythe"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ysort/main hero/Scythe"]
+visible = false
 shape = SubResource("CircleShape2D_0h7mo")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="main hero/Scythe"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ysort/main hero/Scythe"]
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_7ct8v")
 frame = 3
 frame_progress = 0.5786799
 
-[node name="Scythe_dash_timer" type="Timer" parent="main hero"]
+[node name="Sprite2D" type="Sprite2D" parent="ysort/main hero/Scythe"]
+visible = false
+scale = Vector2(0.2109375, 0.2109375)
+texture = ExtResource("10_0h7mo")
+
+[node name="Scythe_dash_timer" type="Timer" parent="ysort/main hero"]
 wait_time = 0.2
 one_shot = true
 
-[node name="Scythe_attack_timer" type="Timer" parent="main hero"]
+[node name="Scythe_attack_timer" type="Timer" parent="ysort/main hero"]
 wait_time = 0.15
 one_shot = true
 
-[node name="Hitbox" type="Area2D" parent="main hero" groups=["HitBox"]]
+[node name="Hitbox" type="Area2D" parent="ysort/main hero" groups=["HitBox"]]
+position = Vector2(0, -10)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="main hero/Hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ysort/main hero/Hitbox"]
+visible = false
 position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_x0ka3")
 
-[node name="Dummy" type="CharacterBody2D" parent="."]
-position = Vector2(56, 41)
+[node name="TextureProgressBar" type="TextureProgressBar" parent="ysort/main hero"]
+offset_left = -10.0
+offset_top = -36.0
+offset_right = 10.0
+offset_bottom = -31.0
+value = 100.0
+texture_progress = ExtResource("11_nr8wp")
+
+[node name="Nps" type="Node2D" parent="ysort"]
+y_sort_enabled = true
+position = Vector2(448, 272)
+
+[node name="Dummy" type="CharacterBody2D" parent="ysort/Nps"]
+y_sort_enabled = true
+position = Vector2(-392, -231)
 collision_layer = 2
 script = ExtResource("5_kdubu")
 bullet_scene = ExtResource("7_4d7sh")
 
-[node name="ShootPoint" type="Node2D" parent="Dummy"]
+[node name="ShootPoint" type="Node2D" parent="ysort/Nps/Dummy"]
+position = Vector2(1, -7)
 
-[node name="ShootTimer" type="Timer" parent="Dummy"]
+[node name="ShootTimer" type="Timer" parent="ysort/Nps/Dummy"]
 autostart = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Dummy"]
-position = Vector2(-1, 0)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ysort/Nps/Dummy"]
+position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_s32dh")
 animation = &"hit_anim"
 
-[node name="Hit_Area" type="Area2D" parent="Dummy"]
-position = Vector2(-1, 1)
+[node name="Hit_Area" type="Area2D" parent="ysort/Nps/Dummy"]
+position = Vector2(0, -6)
 collision_layer = 2
 
-[node name="hit_collision" type="CollisionShape2D" parent="Dummy/Hit_Area"]
+[node name="hit_collision" type="CollisionShape2D" parent="ysort/Nps/Dummy/Hit_Area"]
 shape = SubResource("CapsuleShape2D_037st")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Dummy"]
-position = Vector2(-1, 1)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ysort/Nps/Dummy"]
+position = Vector2(0, -6)
 shape = SubResource("CapsuleShape2D_q6r6c")
 
-[node name="Node2D" type="Node2D" parent="."]
-position = Vector2(448, 272)
-
-[connection signal="timeout" from="main hero/combo_timer" to="main hero" method="_on_combo_timer_timeout"]
-[connection signal="timeout" from="main hero/Scythe_dash_timer" to="main hero" method="_on_scythe_dash_timer_timeout"]
-[connection signal="timeout" from="main hero/Scythe_attack_timer" to="main hero" method="_on_scythe_attack_timer_timeout"]
-[connection signal="area_entered" from="main hero/Hitbox" to="main hero" method="_on_hitbox_area_entered"]
-[connection signal="timeout" from="Dummy/ShootTimer" to="Dummy" method="_on_shoot_timer_timeout"]
-[connection signal="area_entered" from="Dummy/Hit_Area" to="Dummy" method="_on_hit_area_area_entered"]
+[connection signal="timeout" from="ysort/main hero/combo_timer" to="ysort/main hero" method="_on_combo_timer_timeout"]
+[connection signal="timeout" from="ysort/main hero/Scythe_dash_timer" to="ysort/main hero" method="_on_scythe_dash_timer_timeout"]
+[connection signal="timeout" from="ysort/main hero/Scythe_attack_timer" to="ysort/main hero" method="_on_scythe_attack_timer_timeout"]
+[connection signal="area_entered" from="ysort/main hero/Hitbox" to="ysort/main hero" method="_on_hitbox_area_entered"]
+[connection signal="timeout" from="ysort/Nps/Dummy/ShootTimer" to="ysort/Nps/Dummy" method="_on_shoot_timer_timeout"]
+[connection signal="area_entered" from="ysort/Nps/Dummy/Hit_Area" to="ysort/Nps/Dummy" method="_on_hit_area_area_entered"]
