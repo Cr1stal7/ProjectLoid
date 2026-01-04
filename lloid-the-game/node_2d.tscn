@@ -1,4 +1,4 @@
-[gd_scene load_steps=101 format=3 uid="uid://ut7bdcksxicd"]
+[gd_scene load_steps=102 format=3 uid="uid://ut7bdcksxicd"]
 
 [ext_resource type="Script" uid="uid://c0fdw76h18ps0" path="res://BattleLogik.gd" id="1_epypp"]
 [ext_resource type="Texture2D" uid="uid://djua4vu8g33sh" path="res://Assets/top_left-Sheet.png" id="3_4d7sh"]
@@ -607,7 +607,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0h7mo"]
-radius = 26.0
+radius = 20.09975
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3hhlv"]
 atlas = ExtResource("9_x0ka3")
@@ -644,6 +644,10 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x0ka3"]
+radius = 4.0
+height = 18.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ytlpd"]
 atlas = ExtResource("5_q6r6c")
@@ -737,7 +741,7 @@ animation = &"Attack_3"
 [node name="combo_timer" type="Timer" parent="main hero"]
 wait_time = 2.0
 
-[node name="Scythe" type="Area2D" parent="main hero"]
+[node name="Scythe" type="Area2D" parent="main hero" groups=["PlayerAttack"]]
 monitoring = false
 monitorable = false
 
@@ -745,6 +749,7 @@ monitorable = false
 shape = SubResource("CircleShape2D_0h7mo")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="main hero/Scythe"]
+position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_7ct8v")
 frame = 3
 frame_progress = 0.5786799
@@ -756,6 +761,12 @@ one_shot = true
 [node name="Scythe_attack_timer" type="Timer" parent="main hero"]
 wait_time = 0.15
 one_shot = true
+
+[node name="Hitbox" type="Area2D" parent="main hero" groups=["HitBox"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="main hero/Hitbox"]
+position = Vector2(0, 5)
+shape = SubResource("CapsuleShape2D_x0ka3")
 
 [node name="Dummy" type="CharacterBody2D" parent="."]
 position = Vector2(56, 41)
@@ -790,5 +801,6 @@ position = Vector2(448, 272)
 [connection signal="timeout" from="main hero/combo_timer" to="main hero" method="_on_combo_timer_timeout"]
 [connection signal="timeout" from="main hero/Scythe_dash_timer" to="main hero" method="_on_scythe_dash_timer_timeout"]
 [connection signal="timeout" from="main hero/Scythe_attack_timer" to="main hero" method="_on_scythe_attack_timer_timeout"]
+[connection signal="area_entered" from="main hero/Hitbox" to="main hero" method="_on_hitbox_area_entered"]
 [connection signal="timeout" from="Dummy/ShootTimer" to="Dummy" method="_on_shoot_timer_timeout"]
 [connection signal="area_entered" from="Dummy/Hit_Area" to="Dummy" method="_on_hit_area_area_entered"]

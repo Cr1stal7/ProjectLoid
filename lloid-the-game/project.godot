@@ -26,6 +26,8 @@ window/stretch/mode="canvas_items"
 
 bullet=""
 player=""
+PlayerAttack="AttackGG"
+HitBox="hitbox"
 
 [input]
 

@@ -29,7 +29,7 @@ func shoot():
 func get_player():
 	return get_tree().get_first_node_in_group("player")
 func _on_hit_area_area_entered(area: Area2D) -> void:
-	if area.name == "Attack_Area":
+	if area.is_in_group("PlayerAttack"):
 		
 		anim.play("hit_anim")
 func _on_shoot_timer_timeout() -> void:

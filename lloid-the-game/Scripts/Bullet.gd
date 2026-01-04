@@ -34,6 +34,5 @@ func _on_area_entered(area: Area2D) -> void:
 		await get_tree().create_timer(0.20, true, true, true).timeout
 		Engine.time_scale = 1.0
 	
-	if area.is_in_group("player_hitbox"):
-		area.get_parent().take_damage(damage)
+	if area.is_in_group("HitBox"):
 		queue_free()
