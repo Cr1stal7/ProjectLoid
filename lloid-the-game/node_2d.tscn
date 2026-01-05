@@ -641,10 +641,13 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_r3ryn")
+}, {
+"duration": 1.0,
+"texture": null
 }],
-"loop": true,
-"name": &"default",
-"speed": 5.0
+"loop": false,
+"name": &"Attack_sythe",
+"speed": 8.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x0ka3"]
@@ -713,6 +716,7 @@ position = Vector2(205, 147)
 collision_mask = 3
 motion_mode = 1
 script = ExtResource("1_epypp")
+walk_speed = 120.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ysort/main hero"]
 visible = false
@@ -729,9 +733,8 @@ position_smoothing_enabled = true
 position = Vector2(0, -10)
 sprite_frames = SubResource("SpriteFrames_kfelt")
 animation = &"walk_down"
-frame_progress = 0.19845028
 
-[node name="Attack_Area" type="Area2D" parent="ysort/main hero"]
+[node name="Attack_Area" type="Area2D" parent="ysort/main hero" groups=["PlayerAttack"]]
 position = Vector2(0, -10)
 collision_mask = 2
 monitoring = false
@@ -746,9 +749,6 @@ shape = SubResource("RectangleShape2D_kdubu")
 sprite_frames = SubResource("SpriteFrames_m7xe6")
 animation = &"Attack_3"
 
-[node name="combo_timer" type="Timer" parent="ysort/main hero"]
-wait_time = 2.0
-
 [node name="Scythe" type="Area2D" parent="ysort/main hero" groups=["PlayerAttack"]]
 position = Vector2(0, -10)
 monitoring = false
@@ -761,21 +761,14 @@ shape = SubResource("CircleShape2D_0h7mo")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ysort/main hero/Scythe"]
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_7ct8v")
-frame = 3
-frame_progress = 0.5786799
+animation = &"Attack_sythe"
+frame = 4
+frame_progress = 1.0
 
 [node name="Sprite2D" type="Sprite2D" parent="ysort/main hero/Scythe"]
 visible = false
 scale = Vector2(0.2109375, 0.2109375)
 texture = ExtResource("10_0h7mo")
-
-[node name="Scythe_dash_timer" type="Timer" parent="ysort/main hero"]
-wait_time = 0.2
-one_shot = true
-
-[node name="Scythe_attack_timer" type="Timer" parent="ysort/main hero"]
-wait_time = 0.15
-one_shot = true
 
 [node name="Hitbox" type="Area2D" parent="ysort/main hero" groups=["HitBox"]]
 position = Vector2(0, -10)
@@ -795,6 +788,17 @@ texture_progress = ExtResource("11_nr8wp")
 
 [node name="AttackCooldown" type="Timer" parent="ysort/main hero"]
 wait_time = 0.25
+one_shot = true
+
+[node name="Scythe_attack_timer" type="Timer" parent="ysort/main hero"]
+wait_time = 0.15
+one_shot = true
+
+[node name="combo_timer" type="Timer" parent="ysort/main hero"]
+wait_time = 2.0
+
+[node name="Scythe_dash_timer" type="Timer" parent="ysort/main hero"]
+wait_time = 0.2
 one_shot = true
 
 [node name="Nps" type="Node2D" parent="ysort"]
@@ -830,10 +834,10 @@ shape = SubResource("CapsuleShape2D_037st")
 position = Vector2(0, -6)
 shape = SubResource("CapsuleShape2D_q6r6c")
 
-[connection signal="timeout" from="ysort/main hero/combo_timer" to="ysort/main hero" method="_on_combo_timer_timeout"]
-[connection signal="timeout" from="ysort/main hero/Scythe_dash_timer" to="ysort/main hero" method="_on_scythe_dash_timer_timeout"]
-[connection signal="timeout" from="ysort/main hero/Scythe_attack_timer" to="ysort/main hero" method="_on_scythe_attack_timer_timeout"]
 [connection signal="area_entered" from="ysort/main hero/Hitbox" to="ysort/main hero" method="_on_hitbox_area_entered"]
 [connection signal="timeout" from="ysort/main hero/AttackCooldown" to="ysort/main hero" method="_on_attack_cooldown_timeout"]
+[connection signal="timeout" from="ysort/main hero/Scythe_attack_timer" to="ysort/main hero" method="_on_scythe_attack_timer_timeout"]
+[connection signal="timeout" from="ysort/main hero/combo_timer" to="ysort/main hero" method="_on_combo_timer_timeout"]
+[connection signal="timeout" from="ysort/main hero/Scythe_dash_timer" to="ysort/main hero" method="_on_scythe_dash_timer_timeout"]
 [connection signal="timeout" from="ysort/Nps/Dummy/ShootTimer" to="ysort/Nps/Dummy" method="_on_shoot_timer_timeout"]
 [connection signal="area_entered" from="ysort/Nps/Dummy/Hit_Area" to="ysort/Nps/Dummy" method="_on_hit_area_area_entered"]

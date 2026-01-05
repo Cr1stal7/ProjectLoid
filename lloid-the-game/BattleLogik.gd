@@ -148,12 +148,12 @@ func attack():
 			scythe_shapr.disabled = true
 			scythe_area.monitorable = false
 			combo_timer.start()
-			Atc_anim.play("Attack_2")
+			scythe_anim.play("Attack_sythe")
 			Attack_variance += 1
 			await get_tree().create_timer(0.12).timeout
 		else:
 			combo_timer.start()
-			Atc_anim.play("Attack_3")
+			scythe_anim.play("Attack_sythe")
 			Attack_variance = 1
 			await get_tree().create_timer(0.12).timeout
 			scythe_shapr.shape.radius = 32.0
@@ -166,7 +166,6 @@ func attack():
 			await get_tree().create_timer(0.12).timeout
 			scythe_shapr.disabled = true
 			scythe_area.monitorable = false
-			combo_timer.start()
 			scythe_shapr.shape.radius = 22
 		
 
@@ -185,7 +184,7 @@ func _on_scythe_attack_timer_timeout() -> void:
 	await get_tree().process_frame#atack area reload
 	scythe_shapr.disabled = false
 	scythe_area.rotation = aim_dir.angle()
-	Atc_anim.play("Attack_1")
+	scythe_anim.play("Attack_sythe")
 	scythe_area.monitorable = true
 	await get_tree().create_timer(0.12).timeout
 	scythe_shapr.disabled = true
