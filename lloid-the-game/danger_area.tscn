@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://dulfvm3rgp5m5"]
+
+[ext_resource type="Script" uid="uid://vtnkixq8vmtv" path="res://danger_area_skr.gd" id="1_ugvdy"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kss31"]
+radius = 15.0
+height = 80.0
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("1_ugvdy")
+
+[node name="ColorRect" type="ColorRect" parent="Area2D"]
+offset_left = -15.0
+offset_top = -40.0
+offset_right = 15.0
+offset_bottom = 40.0
+color = Color(1, 0.56078434, 0.15686275, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_kss31")
+disabled = true

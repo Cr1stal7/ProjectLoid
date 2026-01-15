@@ -3,6 +3,7 @@ extends CharacterBody2D
 @onready var attack_pivot := $Attackpivot
 @onready var attack_area := $Attackpivot/Area2D
 @onready var timer := $Attack_Timer
+@export var danger_scene: PackedScene
 @export var preferred_distance := 100.0
 @export var tolerance := 20.0
 @export var move_speed := 30.0
@@ -52,14 +53,24 @@ func dash_attack():
 	if not player:
 		return
 	is_attacking = true
-	is_dash_atk = true
+	
 	dash_attack_vector = player.global_position - global_position
 	attack_pivot.rotation = dash_attack_vector.angle() + deg_to_rad(-90)
 	attack_area.visible=true
+	await get_tree().create_timer(0.4).timeout
+	is_dash_atk = true
 	await get_tree().create_timer(0.2).timeout
+	is_dash_atk = false
+	await get_tree().create_timer(0.4).timeout
+	var danger = danger_scene.instantiate()
+	danger.rotation = dash_attack_vector.angle() + deg_to_rad(-90)
+	danger.global_position =attack_pivot.global_position + (dash_attack_vector.normalized() * 40)
+	get_tree().current_scene.add_child(danger)
+	is_dash_atk = false
+	await get_tree().create_timer(0.6).timeout
 	attack_area.visible=false
 	is_attacking = false
-	is_dash_atk = false
+	
 	
 func swing_attack():
 	var t := 0.0
@@ -83,9 +94,10 @@ func swing_attack():
 	move_and_slide()
 
 func _on_attack_timer_timeout() -> void:
-	var attack = randi_range(1, 2)
-	if attack == 1:
+	to_player = player.global_position - global_position
+	
+	if to_player.length() < 100:
 		swing_attack()
-	elif attack == 2:
+	elif to_player.length() >= 100:
 		dash_attack()
 	attack_timer_started = false
