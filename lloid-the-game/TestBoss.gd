@@ -1,5 +1,6 @@
 extends CharacterBody2D
 @export var swing_curve: Curve
+@export var swing_curve2: Curve
 @onready var attack_pivot := $Attackpivot
 @onready var attack_area := $Attackpivot/Area2D
 @onready var timer := $Attack_Timer
@@ -13,19 +14,16 @@ var attack_timer_started = false
 var to_player = Vector2.DOWN
 var dash_attack_vector = Vector2.DOWN
 var is_dash_atk = false
-var attack_time := 0.5
+var attack_time := 3
 var dash_time := 0.7
 var attack_angle := deg_to_rad(140)
 
-func _ready():
-	
-	swing_attack()
-	
+
 func _physics_process(_delta: float) -> void:
 	if not player:
 		return
-	to_player = player.global_position - global_position
 	if is_attacking == false:
+		to_player = player.global_position - global_position
 		if attack_timer_started == false:
 			attack_timer_started = true
 			start_random_timer()
@@ -49,13 +47,19 @@ func _physics_process(_delta: float) -> void:
 func start_random_timer():
 	timer.wait_time = randf_range(2.0, 5.0)
 	timer.start()
+func backstab():
+	to_player = player.global_position - global_position
+	is_attacking = true
+	position = player.global_position + (to_player.normalized() * 20)
+	await get_tree().create_timer(0.6).timeout
+	is_attacking = false
 func dash_attack():
 	if not player:
 		return
 	is_attacking = true
 	
 	dash_attack_vector = player.global_position - global_position
-	attack_pivot.rotation = dash_attack_vector.angle() + deg_to_rad(-90)
+	attack_area.rotation = dash_attack_vector.angle()+ deg_to_rad(-90)
 	attack_area.visible=true
 	await get_tree().create_timer(0.4).timeout
 	is_dash_atk = true
@@ -76,6 +80,9 @@ func swing_attack():
 	var t := 0.0
 	attack_area.monitoring = true
 	attack_area.visible=true
+	is_attacking = true
+	to_player = player.global_position - global_position
+	attack_area.rotation = to_player.angle() + deg_to_rad(-90)
 	while t < attack_time:
 		t += get_physics_process_delta_time()
 		var time := t / attack_time
@@ -85,19 +92,29 @@ func swing_attack():
 			 attack_angle * 0.5,
 			 curve_value
 		)
+		var curve_value2 = swing_curve2.sample(time)
+		
+		velocity = lerp(
+			to_player.normalized() * 0,
+			to_player.normalized() * 50,
+			curve_value2
+		)
+		move_and_slide()
 		await get_tree().physics_frame
 
 	attack_area.monitoring=false
 	attack_area.visible=false
-	
+	is_attacking = false
 
 	move_and_slide()
 
 func _on_attack_timer_timeout() -> void:
 	to_player = player.global_position - global_position
 	
-	if to_player.length() < 100:
+	if to_player.length() < 60:
 		swing_attack()
-	elif to_player.length() >= 100:
+	elif to_player.length() >= 100 and to_player.length() <= 200:
 		dash_attack()
+	elif to_player.length() >= 201:
+		backstab()
 	attack_timer_started = false

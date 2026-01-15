@@ -1,4 +1,4 @@
-[gd_scene load_steps=109 format=3 uid="uid://ut7bdcksxicd"]
+[gd_scene load_steps=110 format=3 uid="uid://ut7bdcksxicd"]
 
 [ext_resource type="Script" uid="uid://c0fdw76h18ps0" path="res://BattleLogik.gd" id="1_epypp"]
 [ext_resource type="Texture2D" uid="uid://djua4vu8g33sh" path="res://Assets/top_left-Sheet.png" id="3_4d7sh"]
@@ -697,14 +697,20 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q6r6c"]
 
 [sub_resource type="Curve" id="Curve_ta5nu"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.4095745, 0.08988774), 0.19803369, 0.19803369, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(0.76063836, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_flf07"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.24468085, 1), 0.0, 0.0, 0, 0, Vector2(0.25531915, 0), 0.0, 0.0, 0, 0, Vector2(0.38829792, 0.15730345), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(0.7553192, 1), 0.0, 0.0, 0, 0, Vector2(0.7659575, 0), 0.0, 0.0, 0, 0, Vector2(0.8882979, 0.13483155), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 9
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_flf07"]
-radius = 25.0
-height = 50.0
+radius = 19.950012
+height = 40.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k73cj"]
+radius = 8.0
+height = 50.0
 
 [node name="Node2D" type="Node2D"]
 
@@ -851,15 +857,16 @@ shape = SubResource("CapsuleShape2D_q6r6c")
 position = Vector2(300.05, 0)
 script = ExtResource("15_d2bti")
 swing_curve = SubResource("Curve_ta5nu")
+swing_curve2 = SubResource("Curve_flf07")
 danger_scene = ExtResource("16_ta5nu")
 
 [node name="Hitbox" type="CollisionShape2D" parent="ysort/Boss"]
 shape = SubResource("CapsuleShape2D_flf07")
 
 [node name="shape" type="ColorRect" parent="ysort/Boss"]
-offset_left = -19.0
+offset_left = -20.049988
 offset_top = -20.0
-offset_right = 21.0
+offset_right = 19.950012
 offset_bottom = 20.0
 metadata/_edit_use_anchors_ = true
 
@@ -871,13 +878,13 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ysort/Boss/Attackpivot/Area2D"]
 physics_interpolation_mode = 2
-position = Vector2(0, 14)
+position = Vector2(-0.049987793, 25)
 shape = SubResource("CapsuleShape2D_k73cj")
 
 [node name="ColorRect" type="ColorRect" parent="ysort/Boss/Attackpivot/Area2D"]
-offset_left = -8.0
-offset_right = 8.0
-offset_bottom = 28.0
+offset_left = -8.049988
+offset_right = 7.950012
+offset_bottom = 50.0
 color = Color(1, 0.07450981, 0.23529412, 1)
 metadata/_edit_use_anchors_ = true
 
