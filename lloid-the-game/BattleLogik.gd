@@ -24,10 +24,13 @@ var is_attacking = false
 var last_dir := "down"
 var aim_dir := Vector2.DOWN
 var aim_dir_temp := Vector2.DOWN
+const Max_Frames = 300
+var history:Array=[]
+var is_rewinding := false
 func _ready() -> void:
 	Atc_anim.play("idle")
 func _physics_process(_delta):
-	
+	update_look_from_movement()
 	var dir = Vector2(
 		Input.get_action_strength("right_walk") - Input.get_action_strength("left_walk"),
 		Input.get_action_strength("down_walk") - Input.get_action_strength("up_walk")
@@ -39,11 +42,24 @@ func _physics_process(_delta):
 	if Input.is_action_pressed("Sprint"):
 		speed *= sprint_multiplier
 		running = true
-	if is_attacking == false:
-		if Input.is_action_just_pressed("WeaponChange"):
-			WeaponChange()
+	if is_attacking == false and is_rewinding == false:
 		velocity = dir * speed
 		move_and_slide()
+		
+		
+	if Input.is_action_pressed("rewind"):
+		is_rewinding = true
+	else:
+		is_rewinding = false
+
+	if is_rewinding:
+		rewind_state()
+		rewind_state()
+		return
+
+	record_state()
+	
+	
 	if dir != Vector2.ZERO:
 		if abs(dir.x) > abs(dir.y):
 			if dir.x > 0:
@@ -70,103 +86,85 @@ func _physics_process(_delta):
 			anim.play("run_" + last_dir)
 		else:
 			anim.play("walk_" + last_dir)
-		
+	
 	
 	else:
 		anim.play("idle")
 	running = false
-	aim_dir = (get_global_mouse_position() - global_position).normalized()
 	if Input.is_action_just_pressed("Attack") and is_attacking == false:
 		attack()
-func WeaponChange():
-	if weapon == 1:
-		weapon+=1
-	else:
-		weapon=1
-		
-		
+	
+func update_look_from_movement():
+	if velocity.length()>0:
+		aim_dir = velocity.normalized()
+func record_state():
+	history.push_back({
+		"pos": global_position,
+		"vel": velocity,
+		"rot": rotation,
+		"anim": anim.animation,
+		"frame": anim.frame,
+		"flip_h": anim.flip_h,
+		"Hp": Hero_Hp.value
+	})
+
+	if history.size() > Max_Frames:
+		history.pop_front()
+func rewind_state():
+	if history.is_empty():
+		return
+
+	var state = history.pop_back()
+	global_position = state.pos
+	velocity = state.vel
+	rotation = state.rot
+	Hero_Hp.value = state.Hp
+	anim.play(state.anim)
+	anim.frame = state.frame
+	anim.flip_h = state.flip_h
+	anim.pause()
+	
 func attack():
 	is_attacking = true
 	AttackTimer.start()
-	if weapon==1:
-		if Attack_variance == 1:
-			attack_area.position = aim_dir * Attack_Distance
-			combo_timer.start()
-			attack_shape.disabled = true
-			await get_tree().process_frame#atack area reload
-			attack_shape.disabled = false
-			attack_area.rotation = aim_dir.angle()
-			Atc_anim.play("Attack_1")
-			attack_area.monitorable = true
-			await get_tree().create_timer(0.12).timeout
-			attack_shape.disabled = true
-			attack_area.monitorable = false
-			Attack_variance += 1
-		elif Attack_variance == 2:
-			combo_timer.start()
-			Atc_anim.play("Attack_2")
-			Attack_variance += 1
-			attack_shape.disabled = true
-			await get_tree().process_frame#atack area reload
-			attack_shape.disabled = false
-			attack_area.rotation = aim_dir.angle()
-			attack_area.monitorable = true
-			await get_tree().create_timer(0.12).timeout
-			attack_shape.disabled = true
-			attack_area.monitorable = false
-		else:
-			combo_timer.start()
-			Atc_anim.play("Attack_3")
-			Attack_variance = 1
-			attack_shape.disabled = true
-			await get_tree().process_frame#atack area reload
-			attack_shape.disabled = false
-			attack_area.rotation = aim_dir.angle()
-			attack_area.monitorable = true
-			await get_tree().create_timer(0.12).timeout
-			attack_shape.disabled = true
-			attack_area.monitorable = false
+	if Attack_variance == 1:
+		Dashing = true
+		aim_dir_temp = velocity.normalized()
+		combo_timer.start()
+		scythe_timer_dash.start()
+		scythe_timer_attack.start()
+		Attack_variance += 1
 		
-		
-	if weapon==2:
-		if Attack_variance == 1:
-			Dashing = true
-			aim_dir_temp = (get_global_mouse_position() - global_position).normalized()
-			combo_timer.start()
-			scythe_timer_dash.start()
-			scythe_timer_attack.start()
-			Attack_variance += 1
-		
-		elif Attack_variance == 2:
-			scythe_area.position = aim_dir * Attack_Distance
-			scythe_shapr.disabled = true
-			await get_tree().process_frame#atack area reload
-			scythe_shapr.disabled = false
-			scythe_area.rotation = aim_dir.angle()
-			scythe_area.monitorable = true
-			await get_tree().create_timer(0.12).timeout
-			scythe_shapr.disabled = true
-			scythe_area.monitorable = false
-			combo_timer.start()
-			scythe_anim.play("Attack_sythe")
-			Attack_variance += 1
-			await get_tree().create_timer(0.12).timeout
-		else:
-			combo_timer.start()
-			scythe_anim.play("Attack_sythe")
-			Attack_variance = 1
-			await get_tree().create_timer(0.12).timeout
-			scythe_shapr.shape.radius = 32.0
-			scythe_area.position = global_position.normalized()
-			scythe_shapr.disabled = true
-			await get_tree().process_frame#atack area reload
-			scythe_shapr.disabled = false
-			scythe_area.rotation = aim_dir.angle()
-			scythe_area.monitorable = true
-			await get_tree().create_timer(0.12).timeout
-			scythe_shapr.disabled = true
-			scythe_area.monitorable = false
-			scythe_shapr.shape.radius = 22
+	elif Attack_variance == 2:
+		scythe_area.position = aim_dir * Attack_Distance
+		scythe_shapr.disabled = true
+		await get_tree().process_frame#atack area reload
+		scythe_shapr.disabled = false
+		scythe_area.rotation = aim_dir.angle()
+		scythe_area.monitorable = true
+		await get_tree().create_timer(0.12).timeout
+		scythe_shapr.disabled = true
+		scythe_area.monitorable = false
+		combo_timer.start()
+		scythe_anim.play("Attack_sythe")
+		Attack_variance += 1
+		await get_tree().create_timer(0.12).timeout
+	else:
+		combo_timer.start()
+		scythe_anim.play("Attack_sythe")
+		Attack_variance = 1
+		await get_tree().create_timer(0.12).timeout
+		scythe_shapr.shape.radius = 32.0
+		scythe_area.position = global_position.normalized()
+		scythe_shapr.disabled = true
+		await get_tree().process_frame#atack area reload
+		scythe_shapr.disabled = false
+		scythe_area.rotation = aim_dir.angle()
+		scythe_area.monitorable = true
+		await get_tree().create_timer(0.12).timeout
+		scythe_shapr.disabled = true
+		scythe_area.monitorable = false
+		scythe_shapr.shape.radius = 22
 		
 
 func _on_combo_timer_timeout() -> void:

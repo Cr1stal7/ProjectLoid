@@ -1,4 +1,4 @@
-[gd_scene load_steps=104 format=3 uid="uid://ut7bdcksxicd"]
+[gd_scene load_steps=108 format=3 uid="uid://ut7bdcksxicd"]
 
 [ext_resource type="Script" uid="uid://c0fdw76h18ps0" path="res://BattleLogik.gd" id="1_epypp"]
 [ext_resource type="Texture2D" uid="uid://djua4vu8g33sh" path="res://Assets/top_left-Sheet.png" id="3_4d7sh"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://cbnyurk6xqq3p" path="res://icon.svg" id="10_0h7mo"]
 [ext_resource type="Texture2D" uid="uid://bw7hcat5dxf7i" path="res://Assets/cathedrall boss arena.png" id="11_hqns4"]
 [ext_resource type="Texture2D" uid="uid://ck6dufo37df0d" path="res://Assets/Hpgauge.png" id="11_nr8wp"]
+[ext_resource type="Script" uid="uid://h62ewstq8dm1" path="res://TestBoss.gd" id="15_d2bti"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
 size = Vector2(15, 16)
@@ -694,6 +695,16 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q6r6c"]
 
+[sub_resource type="Curve" id="Curve_ta5nu"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.4095745, 0.08988774), 0.19803369, 0.19803369, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_flf07"]
+radius = 25.0
+height = 50.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k73cj"]
+
 [node name="Node2D" type="Node2D"]
 
 [node name="CathedrallBossArena" type="Sprite2D" parent="."]
@@ -701,10 +712,10 @@ position = Vector2(2100, 234)
 texture = ExtResource("11_hqns4")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -197.0
-offset_top = -171.0
-offset_right = 1348.0
-offset_bottom = 927.0
+offset_left = -136.0
+offset_top = -87.0
+offset_right = 1409.0
+offset_bottom = 1011.0
 color = Color(0.059820473, 0.2851045, 0.2851045, 0.77254903)
 
 [node name="ysort" type="Node2D" parent="."]
@@ -785,6 +796,7 @@ offset_right = 10.0
 offset_bottom = -31.0
 value = 100.0
 texture_progress = ExtResource("11_nr8wp")
+metadata/_edit_use_anchors_ = true
 
 [node name="AttackCooldown" type="Timer" parent="ysort/main hero"]
 wait_time = 0.25
@@ -834,6 +846,41 @@ shape = SubResource("CapsuleShape2D_037st")
 position = Vector2(0, -6)
 shape = SubResource("CapsuleShape2D_q6r6c")
 
+[node name="Boss" type="CharacterBody2D" parent="ysort"]
+position = Vector2(300.05, 0)
+script = ExtResource("15_d2bti")
+swing_curve = SubResource("Curve_ta5nu")
+
+[node name="Hitbox" type="CollisionShape2D" parent="ysort/Boss"]
+shape = SubResource("CapsuleShape2D_flf07")
+
+[node name="shape" type="ColorRect" parent="ysort/Boss"]
+offset_left = -19.0
+offset_top = -20.0
+offset_right = 21.0
+offset_bottom = 20.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Attackpivot" type="Node2D" parent="ysort/Boss"]
+
+[node name="Area2D" type="Area2D" parent="ysort/Boss/Attackpivot"]
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ysort/Boss/Attackpivot/Area2D"]
+physics_interpolation_mode = 2
+position = Vector2(0, 14)
+shape = SubResource("CapsuleShape2D_k73cj")
+
+[node name="ColorRect" type="ColorRect" parent="ysort/Boss/Attackpivot/Area2D"]
+offset_left = -8.0
+offset_right = 8.0
+offset_bottom = 28.0
+color = Color(1, 0.07450981, 0.23529412, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Attack_Timer" type="Timer" parent="ysort/Boss"]
+
 [connection signal="area_entered" from="ysort/main hero/Hitbox" to="ysort/main hero" method="_on_hitbox_area_entered"]
 [connection signal="timeout" from="ysort/main hero/AttackCooldown" to="ysort/main hero" method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="ysort/main hero/Scythe_attack_timer" to="ysort/main hero" method="_on_scythe_attack_timer_timeout"]
@@ -841,3 +888,4 @@ shape = SubResource("CapsuleShape2D_q6r6c")
 [connection signal="timeout" from="ysort/main hero/Scythe_dash_timer" to="ysort/main hero" method="_on_scythe_dash_timer_timeout"]
 [connection signal="timeout" from="ysort/Nps/Dummy/ShootTimer" to="ysort/Nps/Dummy" method="_on_shoot_timer_timeout"]
 [connection signal="area_entered" from="ysort/Nps/Dummy/Hit_Area" to="ysort/Nps/Dummy" method="_on_hit_area_area_entered"]
+[connection signal="timeout" from="ysort/Boss/Attack_Timer" to="ysort/Boss" method="_on_attack_timer_timeout"]

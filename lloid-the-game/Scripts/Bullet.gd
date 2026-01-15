@@ -21,7 +21,7 @@ func hitstop():
 
 func _on_area_entered(area: Area2D) -> void:
 	
-	if area.name == "Attack_Area" and popal == false:
+	if area.name == "Attack_Area" and area.is_in_group("HitBox") == false:
 		popal = true
 		print_debug("Popal")
 		paried = true
