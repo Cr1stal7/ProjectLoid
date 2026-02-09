@@ -39,9 +39,9 @@ func _physics_process(_delta):
 	if Dashing ==true:
 		velocity = aim_dir_temp * 500
 		move_and_slide()
-	if Input.is_action_pressed("Sprint"):
-		speed *= sprint_multiplier
-		running = true
+	#if Input.is_action_pressed("Sprint"):
+	#	speed *= sprint_multiplier
+	#	running = true
 	if is_attacking == false and is_rewinding == false:
 		velocity = dir * speed
 		move_and_slide()
