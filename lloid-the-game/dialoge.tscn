@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://b46rgui2ofdgf"]
+
+[ext_resource type="Script" uid="uid://b71eqcrqka2ih" path="res://dialogeplayer.gd" id="1_ba8u0"]
+[ext_resource type="Texture2D" uid="uid://b5fyq6jyiju0q" path="res://Assets/dokno.png" id="1_vnqbf"]
+
+[node name="Dialogue" type="Control" unique_id=1110358241]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 4.0
+offset_right = 65.0
+offset_bottom = 45.0
+script = ExtResource("1_ba8u0")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=2090603776]
+layout_mode = 0
+offset_right = 77.0
+offset_bottom = 24.0
+texture = ExtResource("1_vnqbf")
+
+[node name="Name" type="RichTextLabel" parent="NinePatchRect" unique_id=1207891214]
+layout_mode = 0
+offset_left = 1.0
+offset_top = -2.0
+offset_right = 85.99999
+offset_bottom = 38.0
+scale = Vector2(0.5, 0.5)
+text = "Name:"
+
+[node name="Text" type="RichTextLabel" parent="NinePatchRect" unique_id=731059601]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 8.0
+offset_right = 235.33331
+offset_bottom = 54.666668
+scale = Vector2(0.3, 0.3)
+text = "Chatting"
