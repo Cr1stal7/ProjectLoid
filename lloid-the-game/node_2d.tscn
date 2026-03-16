@@ -937,7 +937,7 @@ metadata/_edit_use_anchors_ = true
 [node name="Attack_Timer" type="Timer" parent="ysort/Boss" unique_id=330833427]
 
 [node name="NPC" parent="." unique_id=376115828 instance=ExtResource("20_fs4d3")]
-position = Vector2(162, 147)
+position = Vector2(157, 146)
 
 [connection signal="area_entered" from="ysort/main hero/Hitbox" to="ysort/main hero" method="_on_hitbox_area_entered"]
 [connection signal="timeout" from="ysort/main hero/AttackCooldown" to="ysort/main hero" method="_on_attack_cooldown_timeout"]
