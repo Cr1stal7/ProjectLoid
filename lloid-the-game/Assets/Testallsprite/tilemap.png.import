@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5fyq6jyiju0q"
-path="res://.godot/imported/dokno.png-ee5737af6ff6e056811eda0cbe67d533.ctex"
+uid="uid://dt3xktg18g3yg"
+path="res://.godot/imported/tilemap.png-435889cc27fc8f490ba81f2f6f705515.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/dokno.png"
-dest_files=["res://.godot/imported/dokno.png-ee5737af6ff6e056811eda0cbe67d533.ctex"]
+source_file="res://Assets/Testallsprite/tilemap.png"
+dest_files=["res://.godot/imported/tilemap.png-435889cc27fc8f490ba81f2f6f705515.ctex"]
 
 [params]
 

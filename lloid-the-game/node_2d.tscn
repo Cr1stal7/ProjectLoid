@@ -702,6 +702,22 @@ animations = [{
 radius = 4.0
 height = 18.0
 
+[sub_resource type="Curve" id="Curve_ta5nu"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(0.76063836, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_flf07"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.24468085, 1), 0.0, 0.0, 0, 0, Vector2(0.25531915, 0), 0.0, 0.0, 0, 0, Vector2(0.38829792, 0.15730345), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(0.7553192, 1), 0.0, 0.0, 0, 0, Vector2(0.7659575, 0), 0.0, 0.0, 0, 0, Vector2(0.8882979, 0.13483155), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 9
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_flf07"]
+radius = 19.950012
+height = 40.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k73cj"]
+radius = 8.0
+height = 50.0
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ytlpd"]
 atlas = ExtResource("5_q6r6c")
 region = Rect2(0, 0, 32, 32)
@@ -741,22 +757,6 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_037st"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q6r6c"]
-
-[sub_resource type="Curve" id="Curve_ta5nu"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(0.76063836, 0), 0.0, 0.0, 0, 0]
-point_count = 4
-
-[sub_resource type="Curve" id="Curve_flf07"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.24468085, 1), 0.0, 0.0, 0, 0, Vector2(0.25531915, 0), 0.0, 0.0, 0, 0, Vector2(0.38829792, 0.15730345), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(0.7553192, 1), 0.0, 0.0, 0, 0, Vector2(0.7659575, 0), 0.0, 0.0, 0, 0, Vector2(0.8882979, 0.13483155), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 9
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_flf07"]
-radius = 19.950012
-height = 40.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k73cj"]
-radius = 8.0
-height = 50.0
 
 [node name="Node2D" type="Node2D" unique_id=159211894]
 script = ExtResource("1_rjqkl")
@@ -865,40 +865,6 @@ wait_time = 2.0
 wait_time = 0.2
 one_shot = true
 
-[node name="Nps" type="Node2D" parent="ysort" unique_id=1730237333]
-y_sort_enabled = true
-position = Vector2(448, 272)
-
-[node name="Dummy" type="CharacterBody2D" parent="ysort/Nps" unique_id=1413945328]
-y_sort_enabled = true
-position = Vector2(-392, -231)
-collision_layer = 2
-script = ExtResource("5_kdubu")
-bullet_scene = ExtResource("7_4d7sh")
-
-[node name="ShootPoint" type="Node2D" parent="ysort/Nps/Dummy" unique_id=382316469]
-position = Vector2(1, -7)
-
-[node name="ShootTimer" type="Timer" parent="ysort/Nps/Dummy" unique_id=94336172]
-autostart = true
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ysort/Nps/Dummy" unique_id=642228925]
-position = Vector2(0, -7)
-sprite_frames = SubResource("SpriteFrames_s32dh")
-animation = &"hit_anim"
-
-[node name="Hit_Area" type="Area2D" parent="ysort/Nps/Dummy" unique_id=662571066]
-position = Vector2(0, -6)
-collision_layer = 2
-
-[node name="hit_collision" type="CollisionShape2D" parent="ysort/Nps/Dummy/Hit_Area" unique_id=542885507]
-position = Vector2(1, 0)
-shape = SubResource("CapsuleShape2D_037st")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ysort/Nps/Dummy" unique_id=299016709]
-position = Vector2(0, -6)
-shape = SubResource("CapsuleShape2D_q6r6c")
-
 [node name="Boss" type="CharacterBody2D" parent="ysort" unique_id=1107953111]
 position = Vector2(300.05, 0)
 script = ExtResource("15_d2bti")
@@ -936,6 +902,40 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Attack_Timer" type="Timer" parent="ysort/Boss" unique_id=330833427]
 
+[node name="Nps" type="Node2D" parent="ysort" unique_id=1730237333]
+y_sort_enabled = true
+position = Vector2(448, 272)
+
+[node name="Dummy" type="CharacterBody2D" parent="ysort/Nps" unique_id=1413945328]
+y_sort_enabled = true
+position = Vector2(-392, -231)
+collision_layer = 2
+script = ExtResource("5_kdubu")
+bullet_scene = ExtResource("7_4d7sh")
+
+[node name="ShootPoint" type="Node2D" parent="ysort/Nps/Dummy" unique_id=382316469]
+position = Vector2(1, -7)
+
+[node name="ShootTimer" type="Timer" parent="ysort/Nps/Dummy" unique_id=94336172]
+autostart = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ysort/Nps/Dummy" unique_id=642228925]
+position = Vector2(0, -7)
+sprite_frames = SubResource("SpriteFrames_s32dh")
+animation = &"hit_anim"
+
+[node name="Hit_Area" type="Area2D" parent="ysort/Nps/Dummy" unique_id=662571066]
+position = Vector2(0, -6)
+collision_layer = 2
+
+[node name="hit_collision" type="CollisionShape2D" parent="ysort/Nps/Dummy/Hit_Area" unique_id=542885507]
+position = Vector2(1, 0)
+shape = SubResource("CapsuleShape2D_037st")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ysort/Nps/Dummy" unique_id=299016709]
+position = Vector2(0, -6)
+shape = SubResource("CapsuleShape2D_q6r6c")
+
 [node name="NPC" parent="." unique_id=376115828 instance=ExtResource("20_fs4d3")]
 position = Vector2(157, 146)
 
@@ -944,6 +944,6 @@ position = Vector2(157, 146)
 [connection signal="timeout" from="ysort/main hero/Scythe_attack_timer" to="ysort/main hero" method="_on_scythe_attack_timer_timeout"]
 [connection signal="timeout" from="ysort/main hero/combo_timer" to="ysort/main hero" method="_on_combo_timer_timeout"]
 [connection signal="timeout" from="ysort/main hero/Scythe_dash_timer" to="ysort/main hero" method="_on_scythe_dash_timer_timeout"]
+[connection signal="timeout" from="ysort/Boss/Attack_Timer" to="ysort/Boss" method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="ysort/Nps/Dummy/ShootTimer" to="ysort/Nps/Dummy" method="_on_shoot_timer_timeout"]
 [connection signal="area_entered" from="ysort/Nps/Dummy/Hit_Area" to="ysort/Nps/Dummy" method="_on_hit_area_area_entered"]
-[connection signal="timeout" from="ysort/Boss/Attack_Timer" to="ysort/Boss" method="_on_attack_timer_timeout"]

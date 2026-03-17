@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b46rgui2ofdgf"]
 
 [ext_resource type="Script" uid="uid://b71eqcrqka2ih" path="res://dialogeplayer.gd" id="1_ba8u0"]
-[ext_resource type="Texture2D" uid="uid://b5fyq6jyiju0q" path="res://Assets/dokno.png" id="1_vnqbf"]
+[ext_resource type="Texture2D" uid="uid://b5fyq6jyiju0q" path="res://Assets/Testallsprite/dokno.png" id="1_vnqbf"]
 
 [node name="Dialogue" type="Control" unique_id=1110358241]
 layout_mode = 3
