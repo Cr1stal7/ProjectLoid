@@ -1,7 +1,6 @@
 [gd_resource type="TileSet" format=3 uid="uid://c280ir0qbtnvj"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_famww"]
-load_path = "res://.godot/imported/$LabapDD.png-cf21efe61608af4da66c2718af979391.ctex"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ujgj0"]
 texture = SubResource("CompressedTexture2D_famww")
