@@ -1,3 +1,58 @@
 [gd_scene format=3 uid="uid://d1h7v7ykfhnuf"]
 
-[node name="Node2D2" type="Node2D" unique_id=1164886977]
+[ext_resource type="Script" uid="uid://h62ewstq8dm1" path="res://TestBoss.gd" id="1_ynxhl"]
+[ext_resource type="PackedScene" uid="uid://dulfvm3rgp5m5" path="res://danger_area.tscn" id="2_tbnye"]
+
+[sub_resource type="Curve" id="Curve_ta5nu"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(0.76063836, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_flf07"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.24468085, 1), 0.0, 0.0, 0, 0, Vector2(0.25531915, 0), 0.0, 0.0, 0, 0, Vector2(0.38829792, 0.15730345), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(0.7553192, 1), 0.0, 0.0, 0, 0, Vector2(0.7659575, 0), 0.0, 0.0, 0, 0, Vector2(0.8882979, 0.13483155), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 9
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_flf07"]
+radius = 19.950012
+height = 40.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k73cj"]
+radius = 8.0
+height = 50.0
+
+[node name="Boss" type="CharacterBody2D" unique_id=1534338684]
+script = ExtResource("1_ynxhl")
+swing_curve = SubResource("Curve_ta5nu")
+swing_curve2 = SubResource("Curve_flf07")
+danger_scene = ExtResource("2_tbnye")
+
+[node name="Hitbox" type="CollisionShape2D" parent="." unique_id=164062524]
+shape = SubResource("CapsuleShape2D_flf07")
+
+[node name="shape" type="ColorRect" parent="." unique_id=96037155]
+offset_left = -20.049988
+offset_top = -20.0
+offset_right = 19.950012
+offset_bottom = 20.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Attackpivot" type="Node2D" parent="." unique_id=223454269]
+
+[node name="Area2D" type="Area2D" parent="Attackpivot" unique_id=525613449]
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attackpivot/Area2D" unique_id=1585548248]
+physics_interpolation_mode = 2
+position = Vector2(-0.049987793, 25)
+shape = SubResource("CapsuleShape2D_k73cj")
+
+[node name="ColorRect" type="ColorRect" parent="Attackpivot/Area2D" unique_id=1744048370]
+offset_left = -8.049988
+offset_right = 7.950012
+offset_bottom = 50.0
+color = Color(1, 0.07450981, 0.23529412, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Attack_Timer" type="Timer" parent="." unique_id=1829870214]
+
+[connection signal="timeout" from="Attack_Timer" to="." method="_on_attack_timer_timeout"]

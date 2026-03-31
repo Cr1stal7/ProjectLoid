@@ -13,7 +13,7 @@ extends CharacterBody2D
 @onready var hitbox=$Hitbox
 @onready var Hero_Hp=$TextureProgressBar
 @export var knockback = -80
-@export var walk_speed := 180.0
+@export var walk_speed := 120.0
 @export var sprint_multiplier := 1.6
 @export var Attack_Distance := 20
 var weapon = 1
