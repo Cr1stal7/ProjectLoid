@@ -1,28 +1,28 @@
 [gd_scene format=3 uid="uid://ut7bdcksxicd"]
 
-[ext_resource type="Script" uid="uid://bgqmynf5r7nh6" path="res://node_2d.gd" id="1_rjqkl"]
-[ext_resource type="Script" uid="uid://ckak47hspbhsp" path="res://Scripts/Dummy_hit.gd" id="5_kdubu"]
-[ext_resource type="Texture2D" uid="uid://cm8ls2d6m5p6l" path="res://Assets/Training Dummy Sprite Sheet.png" id="5_q6r6c"]
-[ext_resource type="PackedScene" uid="uid://ccqxg2yxf1otp" path="res://test_bullet.tscn" id="7_4d7sh"]
-[ext_resource type="PackedScene" uid="uid://d1h7v7ykfhnuf" path="res://TestBoss.tscn" id="10_ir8iy"]
-[ext_resource type="Texture2D" uid="uid://bw7hcat5dxf7i" path="res://Assets/cathedrall boss arena.png" id="11_hqns4"]
-[ext_resource type="PackedScene" uid="uid://1dde44r37lu4" path="res://main_hero.tscn" id="15_7vxoj"]
-[ext_resource type="PackedScene" uid="uid://c724axm2qh3nr" path="res://npc.tscn" id="20_fs4d3"]
+[ext_resource type="Script" uid="uid://bgqmynf5r7nh6" path="res://Scripts/node_2d.gd" id="1_v7gqg"]
+[ext_resource type="Texture2D" uid="uid://bw7hcat5dxf7i" path="res://Assets/cathedrall boss arena.png" id="2_chwn1"]
+[ext_resource type="PackedScene" uid="uid://1dde44r37lu4" path="res://Scenes/main_hero.tscn" id="3_hvaui"]
+[ext_resource type="PackedScene" uid="uid://d1h7v7ykfhnuf" path="res://Scenes/TestBoss.tscn" id="4_2ooml"]
+[ext_resource type="Script" uid="uid://ckak47hspbhsp" path="res://Scripts/Dummy_hit.gd" id="5_p20hg"]
+[ext_resource type="PackedScene" uid="uid://ccqxg2yxf1otp" path="res://Scenes/test_bullet.tscn" id="6_he4j0"]
+[ext_resource type="Texture2D" uid="uid://cm8ls2d6m5p6l" path="res://Assets/Training Dummy Sprite Sheet.png" id="7_85gyg"]
+[ext_resource type="PackedScene" uid="uid://c724axm2qh3nr" path="res://Scenes/npc.tscn" id="8_c32x4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ytlpd"]
-atlas = ExtResource("5_q6r6c")
+atlas = ExtResource("7_85gyg")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2v765"]
-atlas = ExtResource("5_q6r6c")
+atlas = ExtResource("7_85gyg")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b8fb0"]
-atlas = ExtResource("5_q6r6c")
+atlas = ExtResource("7_85gyg")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ma08v"]
-atlas = ExtResource("5_q6r6c")
+atlas = ExtResource("7_85gyg")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_s32dh"]
@@ -50,11 +50,11 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q6r6c"]
 
 [node name="Node2D" type="Node2D" unique_id=159211894]
-script = ExtResource("1_rjqkl")
+script = ExtResource("1_v7gqg")
 
 [node name="CathedrallBossArena" type="Sprite2D" parent="." unique_id=1334752896]
 position = Vector2(2100, 234)
-texture = ExtResource("11_hqns4")
+texture = ExtResource("2_chwn1")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1070137508]
 offset_left = -202.0
@@ -66,9 +66,9 @@ color = Color(0.059820473, 0.2851045, 0.2851045, 0.77254903)
 [node name="ysort" type="Node2D" parent="." unique_id=1139495956]
 y_sort_enabled = true
 
-[node name="main hero" parent="ysort" unique_id=798507717 instance=ExtResource("15_7vxoj")]
+[node name="main hero" parent="ysort" unique_id=798507717 instance=ExtResource("3_hvaui")]
 
-[node name="Boss" parent="ysort" unique_id=1534338684 instance=ExtResource("10_ir8iy")]
+[node name="Boss" parent="ysort" unique_id=1534338684 instance=ExtResource("4_2ooml")]
 position = Vector2(158, -9)
 
 [node name="Nps" type="Node2D" parent="ysort" unique_id=1730237333]
@@ -79,8 +79,8 @@ position = Vector2(448, 272)
 y_sort_enabled = true
 position = Vector2(-392, -231)
 collision_layer = 2
-script = ExtResource("5_kdubu")
-bullet_scene = ExtResource("7_4d7sh")
+script = ExtResource("5_p20hg")
+bullet_scene = ExtResource("6_he4j0")
 
 [node name="ShootPoint" type="Node2D" parent="ysort/Nps/Dummy" unique_id=382316469]
 position = Vector2(1, -7)
@@ -105,7 +105,7 @@ shape = SubResource("CapsuleShape2D_037st")
 position = Vector2(0, -6)
 shape = SubResource("CapsuleShape2D_q6r6c")
 
-[node name="NPC" parent="." unique_id=376115828 instance=ExtResource("20_fs4d3")]
+[node name="NPC" parent="." unique_id=376115828 instance=ExtResource("8_c32x4")]
 position = Vector2(160, 164)
 
 [connection signal="timeout" from="ysort/Nps/Dummy/ShootTimer" to="ysort/Nps/Dummy" method="_on_shoot_timer_timeout"]

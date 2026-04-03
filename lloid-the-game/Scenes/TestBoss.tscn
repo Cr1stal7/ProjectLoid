@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d1h7v7ykfhnuf"]
 
-[ext_resource type="Script" uid="uid://h62ewstq8dm1" path="res://TestBoss.gd" id="1_ynxhl"]
-[ext_resource type="PackedScene" uid="uid://dulfvm3rgp5m5" path="res://danger_area.tscn" id="2_tbnye"]
+[ext_resource type="Script" uid="uid://h62ewstq8dm1" path="res://Scripts/TestBoss.gd" id="1_ynxhl"]
+[ext_resource type="PackedScene" uid="uid://dulfvm3rgp5m5" path="res://Scenes/danger_area.tscn" id="2_tbnye"]
 
 [sub_resource type="Curve" id="Curve_ta5nu"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(0.76063836, 0), 0.0, 0.0, 0, 0]

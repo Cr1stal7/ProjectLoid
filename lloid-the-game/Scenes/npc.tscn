@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://c724axm2qh3nr"]
 
 [ext_resource type="Texture2D" uid="uid://cm8ls2d6m5p6l" path="res://Assets/Training Dummy Sprite Sheet.png" id="1_ideak"]
-[ext_resource type="Script" uid="uid://doq2a8x2u0yp1" path="res://npc1.gd" id="1_xxcha"]
-[ext_resource type="PackedScene" uid="uid://b46rgui2ofdgf" path="res://dialoge.tscn" id="3_kh24r"]
+[ext_resource type="Script" uid="uid://doq2a8x2u0yp1" path="res://Scripts/npc1.gd" id="1_xxcha"]
+[ext_resource type="PackedScene" uid="uid://b46rgui2ofdgf" path="res://Scenes/dialoge.tscn" id="3_kh24r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xxcha"]
 atlas = ExtResource("1_ideak")

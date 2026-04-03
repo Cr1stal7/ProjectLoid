@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://4rowgcd2indv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_186t8"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=494887491]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=50328823]
+sprite_frames = SubResource("SpriteFrames_186t8")
+frame_progress = 0.70265883

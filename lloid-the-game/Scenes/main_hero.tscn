@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://1dde44r37lu4"]
 
-[ext_resource type="Script" uid="uid://c0fdw76h18ps0" path="res://BattleLogik.gd" id="1_rpkdv"]
+[ext_resource type="Script" uid="uid://c0fdw76h18ps0" path="res://Scripts/BattleLogik.gd" id="1_rpkdv"]
 [ext_resource type="Texture2D" uid="uid://dp2hwsavcby84" path="res://Assets/анимации гг-Sheet.png" id="2_pawvf"]
 [ext_resource type="Texture2D" uid="uid://cygqvi57y55ou" path="res://Assets/PC _ Computer - CrossCode - Playable Characters - Lea.png" id="3_2oklo"]
 [ext_resource type="Texture2D" uid="uid://djua4vu8g33sh" path="res://Assets/top_left-Sheet.png" id="4_3yie5"]
