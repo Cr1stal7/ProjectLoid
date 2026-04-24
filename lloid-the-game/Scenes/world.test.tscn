@@ -1,11 +1,53 @@
 [gd_scene format=4 uid="uid://cv1jv6eskiv5p"]
 
 [ext_resource type="Texture2D" uid="uid://dt3xktg18g3yg" path="res://Assets/Testallsprite/tilemap.png" id="1_3dcvn"]
+[ext_resource type="Script" uid="uid://y5xs4abm7rc5" path="res://Scenes/lvlteast.gd" id="1_8ruvg"]
 [ext_resource type="Texture2D" uid="uid://d0tggk7gjxisj" path="res://Assets/Testallsprite/tilemap_packed.png" id="2_qj1y1"]
 [ext_resource type="PackedScene" uid="uid://1dde44r37lu4" path="res://Scenes/main_hero.tscn" id="3_rb05y"]
-[ext_resource type="Script" uid="uid://b3sava42ww035" path="res://deadzonetest.gd" id="4_8ruvg"]
-[ext_resource type="Script" uid="uid://dk5td1p8hlvba" path="res://Scenes/cheakpoint_mm.gd" id="5_y0qxc"]
-[ext_resource type="PackedScene" uid="uid://c5exbyn8vxtal" path="res://checpoint.tscn" id="6_np5bd"]
+[ext_resource type="PackedScene" uid="uid://d3k5k8tjeoo4g" path="res://checkpoint.tscn" id="5_y0qxc"]
+[ext_resource type="Script" uid="uid://ckak47hspbhsp" path="res://Scripts/Dummy_hit.gd" id="6_rmvrd"]
+[ext_resource type="PackedScene" uid="uid://ccqxg2yxf1otp" path="res://Scenes/test_bullet.tscn" id="7_8cfuo"]
+[ext_resource type="Texture2D" uid="uid://cm8ls2d6m5p6l" path="res://Assets/Training Dummy Sprite Sheet.png" id="8_pfru8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ytlpd"]
+atlas = ExtResource("8_pfru8")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2v765"]
+atlas = ExtResource("8_pfru8")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b8fb0"]
+atlas = ExtResource("8_pfru8")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ma08v"]
+atlas = ExtResource("8_pfru8")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_83621"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ytlpd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2v765")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b8fb0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ma08v")
+}],
+"loop": false,
+"name": &"hit_anim",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_37fjs"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a1vvc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1yqac"]
 texture = ExtResource("1_3dcvn")
@@ -418,10 +460,38 @@ texture = ExtResource("2_qj1y1")
 [sub_resource type="TileSet" id="TileSet_3dcvn"]
 sources/2 = SubResource("TileSetAtlasSource_dajkl")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_np5bd"]
-size = Vector2(69, 42)
-
 [node name="world" type="Node2D" unique_id=1731569924]
+script = ExtResource("1_8ruvg")
+
+[node name="Dummy" type="CharacterBody2D" parent="." unique_id=1725527169]
+y_sort_enabled = true
+position = Vector2(-392, -231)
+collision_layer = 2
+script = ExtResource("6_rmvrd")
+bullet_scene = ExtResource("7_8cfuo")
+
+[node name="ShootPoint" type="Node2D" parent="Dummy" unique_id=127304454]
+position = Vector2(1, -7)
+
+[node name="ShootTimer" type="Timer" parent="Dummy" unique_id=1063304821]
+autostart = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Dummy" unique_id=529864508]
+position = Vector2(0, -7)
+sprite_frames = SubResource("SpriteFrames_83621")
+animation = &"hit_anim"
+
+[node name="Hit_Area" type="Area2D" parent="Dummy" unique_id=900974070]
+position = Vector2(0, -6)
+collision_layer = 2
+
+[node name="hit_collision" type="CollisionShape2D" parent="Dummy/Hit_Area" unique_id=1137321617]
+position = Vector2(1, 0)
+shape = SubResource("CapsuleShape2D_37fjs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dummy" unique_id=1754579096]
+position = Vector2(0, -6)
+shape = SubResource("CapsuleShape2D_a1vvc")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1356532335]
 position = Vector2(204, 147)
@@ -437,17 +507,11 @@ tile_set = SubResource("TileSet_3dcvn")
 [node name="player" parent="." unique_id=798507717 instance=ExtResource("3_rb05y")]
 position = Vector2(146, 192)
 
-[node name="deadzonetest" type="Area2D" parent="." unique_id=554832010]
-script = ExtResource("4_8ruvg")
+[node name="checkpoint" parent="." unique_id=1385828003 instance=ExtResource("5_y0qxc")]
+position = Vector2(72, 186)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="deadzonetest" unique_id=1725119439]
-position = Vector2(265, 233)
-shape = SubResource("RectangleShape2D_np5bd")
+[node name="checkpoint2" parent="." unique_id=309342189 instance=ExtResource("5_y0qxc")]
+position = Vector2(362, 186)
 
-[node name="CheakpointMM" type="Node" parent="." unique_id=854852613]
-script = ExtResource("5_y0qxc")
-
-[node name="checpoint" parent="CheakpointMM" unique_id=1169762591 instance=ExtResource("6_np5bd")]
-position = Vector2(60, 175)
-
-[connection signal="body_entered" from="deadzonetest" to="deadzonetest" method="_on_body_entered"]
+[connection signal="timeout" from="Dummy/ShootTimer" to="Dummy" method="_on_shoot_timer_timeout"]
+[connection signal="area_entered" from="Dummy/Hit_Area" to="Dummy" method="_on_hit_area_area_entered"]

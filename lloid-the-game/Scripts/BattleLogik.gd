@@ -29,6 +29,7 @@ var history:Array=[]
 var is_rewinding := false
 func _ready() -> void:
 	Atc_anim.play("idle")
+	
 func _physics_process(_delta):
 	update_look_from_movement()
 	var dir = Vector2(
@@ -193,8 +194,10 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):
 		Hero_Hp.value-=10
 	if Hero_Hp.value==0 or Hero_Hp.value<0:
-		queue_free()
 		
+		if GlobalScript.checkpoint_pos != Vector2(-999, -999):
+			global_position = GlobalScript.checkpoint_pos
+		Hero_Hp.value = 100
 		
 func _on_attack_cooldown_timeout() -> void:
 	is_attacking = false
