@@ -16,6 +16,7 @@ extends CharacterBody2D
 @export var walk_speed := 120.0
 @export var sprint_multiplier := 1.6
 @export var Attack_Distance := 20
+var death_counter = 0
 var weapon = 1
 var Dashing = false
 var Attack_variance = 1
@@ -190,14 +191,25 @@ func _on_scythe_attack_timer_timeout() -> void:
 	scythe_area.monitorable = false
 
 
+
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):
 		Hero_Hp.value-=10
-	if Hero_Hp.value==0 or Hero_Hp.value<0:
-		
+	if Hero_Hp.value <=0:
+		die()
+
+
+func die() -> void: #черновик тут
+	death_counter += 1
+	if death_counter <= 2:
+		Hero_Hp.value = 100
+	else:
+		death_counter <= 3
 		if GlobalScript.checkpoint_pos != Vector2(-999, -999):
 			global_position = GlobalScript.checkpoint_pos
-		Hero_Hp.value = 100
+		Hero_Hp.value = 100 
+		death_counter = 0
 		
+
 func _on_attack_cooldown_timeout() -> void:
 	is_attacking = false
